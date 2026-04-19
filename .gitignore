@@ -1,0 +1,46 @@
+# Ignore Structurizr internal data
+.structurizr/
+
+# Keep workspace DSL files only (Structurizr workspace definitions)
+# The workspace file under docs/prod/diagrama-de-despliegue/workspace.dsl remains tracked.
+**/workspace.json
+
+# Ignore generated images by default
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.webp
+*.bmp
+*.tif
+*.tiff
+
+# Allow only approved Structurizr images by name
+!diagram*.png
+!diagram*.jpg
+!diagram*.jpeg
+!diagram*.gif
+!diagram*.svg
+!diagram*.webp
+!diagram*.bmp
+!diagram*.tif
+!diagram*.tiff
+!diagram-key*.png
+!diagram-key*.jpg
+!diagram-key*.jpeg
+!diagram-key*.gif
+!diagram-key*.svg
+!diagram-key*.webp
+!diagram-key*.bmp
+!diagram-key*.tif
+!diagram-key*.tiff
+!image*.png
+!image*.jpg
+!image*.jpeg
+!image*.gif
+!image*.svg
+!image*.webp
+!image*.bmp
+!image*.tif
+!image*.tiff
