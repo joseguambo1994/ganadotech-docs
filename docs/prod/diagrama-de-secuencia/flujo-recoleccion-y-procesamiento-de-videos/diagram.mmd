@@ -1,0 +1,19 @@
+sequenceDiagram
+    participant Camera as IP Camera
+    participant Worker as Local Worker Server
+    participant R2 as Cloudflare R2
+    participant Processor as Hostinger VPS Python App
+    participant Supabase as Supabase
+
+    Camera->>Worker: Envía video feed
+    Worker->>Worker: Procesa y cifra video localmente
+    Worker->>R2: Almacena video cifrado
+
+    loop Polling de videos pendientes
+        Processor->>R2: Consulta videos pendientes de procesar
+        R2-->>Processor: Retorna video pendiente
+        Processor->>Processor: Analiza video y cuenta ovejas
+        Processor->>R2: Almacena video procesado
+        Processor->>Supabase: Guarda resultado de inteligencia y conteo
+        Supabase-->>Processor: Confirma persistencia
+    end

@@ -1,0 +1,25 @@
+```mermaid
+sequenceDiagram
+    actor Admin as Administrador / Desarrollador
+    participant Frontend as Admin Frontend
+    participant Keycloak as Keycloak
+    participant Gateway as API Gateway (KrakenD)
+    participant AdminBackend as Admin Backend
+    participant Supabase as Supabase
+    participant R2 as Cloudflare R2
+
+    Admin->>Frontend: Accede al panel administrativo
+    Frontend->>Keycloak: Solicita autenticación
+    Keycloak-->>Frontend: Retorna access token
+    Frontend->>Gateway: Solicita operación administrativa
+    Gateway->>Keycloak: Valida access token
+    Keycloak-->>Gateway: Token válido
+    Gateway->>AdminBackend: Enruta solicitud administrativa
+    AdminBackend->>Supabase: Consulta o actualiza datos de monitoreo
+    Supabase-->>AdminBackend: Retorna resultado
+    AdminBackend->>R2: Consulta o administra videos procesados
+    R2-->>AdminBackend: Retorna resultado de almacenamiento
+    AdminBackend-->>Gateway: Retorna resultado administrativo
+    Gateway-->>Frontend: Retorna respuesta
+    Frontend-->>Admin: Muestra resultado
+```
