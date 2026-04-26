@@ -1,23 +1,23 @@
 sequenceDiagram
     actor User as Usuario
-    participant Mobile as Mobile App
+    participant PWA as User PWA
     participant Keycloak as Keycloak
     participant Gateway as API Gateway (KrakenD)
-    participant MobileBff as Mobile BFF
+    participant PwaBff as PWA BFF
     participant Supabase as Supabase
     participant R2 as Cloudflare R2
 
-    User->>Mobile: Abre la aplicación
-    Mobile->>Keycloak: Solicita autenticación
-    Keycloak-->>Mobile: Retorna access token
-    Mobile->>Gateway: Solicita conteo y video
+    User->>PWA: Abre la PWA
+    PWA->>Keycloak: Solicita autenticacion
+    Keycloak-->>PWA: Retorna access token
+    PWA->>Gateway: Solicita conteo y video
     Gateway->>Keycloak: Valida access token
-    Keycloak-->>Gateway: Token válido
-    Gateway->>MobileBff: Enruta solicitud móvil
-    MobileBff->>Supabase: Consulta conteo de ovejas
-    Supabase-->>MobileBff: Retorna datos de conteo
-    MobileBff->>R2: Consulta video procesado
-    R2-->>MobileBff: Retorna referencia del video
-    MobileBff-->>Gateway: Retorna datos consolidados
-    Gateway-->>Mobile: Retorna conteo y video
-    Mobile-->>User: Muestra monitoreo de la finca
+    Keycloak-->>Gateway: Token valido
+    Gateway->>PwaBff: Enruta solicitud PWA
+    PwaBff->>Supabase: Consulta conteo de ovejas
+    Supabase-->>PwaBff: Retorna datos de conteo
+    PwaBff->>R2: Consulta video procesado
+    R2-->>PwaBff: Retorna referencia del video
+    PwaBff-->>Gateway: Retorna datos consolidados
+    Gateway-->>PWA: Retorna conteo y video
+    PWA-->>User: Muestra monitoreo de la finca

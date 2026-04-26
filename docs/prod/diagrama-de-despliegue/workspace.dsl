@@ -40,9 +40,9 @@ workspace {
                 tags "Backend"
             }
 
-            mobile_app = container "Mobile App" {
-                description "Mobile application for farm monitoring and sheep count display"
-                technology "Expo React Native"
+            pwa_app = container "User PWA" {
+                description "Progressive web app for farm monitoring and sheep count display"
+                technology "Progressive Web App (PWA)"
                 tags "Frontend"
             }
 
@@ -59,13 +59,13 @@ workspace {
             }
 
             api_gateway = container "API Gateway" {
-                description "Routes external API requests to the mobile backend and admin backend"
+                description "Routes external API requests to the PWA backend and admin backend"
                 technology "KrakenD"
                 tags "API Gateway"
             }
 
-            mobile_bff = container "Mobile Backend for Frontend (BFF)" {
-                description "API layer for mobile app communication"
+            pwa_bff = container "PWA Backend for Frontend (BFF)" {
+                description "API layer for PWA communication"
                 technology "DotNet 8 Web API"
                 tags "Backend"
             }
@@ -76,21 +76,21 @@ workspace {
                 tags "Backend"
             }
 
-            user -> mobile_app "Monitors and configures"
+            user -> pwa_app "Monitors and configures"
             administrator -> admin_frontend "Administers and maintains the system"
-            mobile_app -> identity_provider "Authenticates users"
+            pwa_app -> identity_provider "Authenticates users"
             admin_frontend -> identity_provider "Authenticates administrators and developers"
             admin_frontend -> api_gateway "Uses admin APIs"
             ip_camera -> local_worker "Sends video feed"
             local_worker -> cloudflare "Stores encrypted video"
             api_gateway -> identity_provider "Validates access tokens"
-            api_gateway -> mobile_bff "Routes mobile API requests"
+            api_gateway -> pwa_bff "Routes PWA API requests"
             api_gateway -> admin_backend "Routes admin API requests"
             vps_app -> supabase "Stores analysis results and sheep count"
             vps_app -> cloudflare "Polls videos to process and stores processed video"
-            mobile_app -> api_gateway "Fetches sheep count and video"
-            mobile_bff -> supabase "Fetches sheep count data"
-            mobile_bff -> cloudflare "Fetches processed video"
+            pwa_app -> api_gateway "Fetches sheep count and video"
+            pwa_bff -> supabase "Fetches sheep count data"
+            pwa_bff -> cloudflare "Fetches processed video"
             admin_backend -> supabase "Manages sheep count data"
             admin_backend -> cloudflare "Manages processed video"
 
@@ -127,9 +127,9 @@ workspace {
                     technology "Ubuntu / Python"
                     containerInstance vps_app
                 }
-                deploymentNode "Mobile Backend Application" {
+                deploymentNode "PWA Backend Application" {
                     technology "DotNet"
-                    containerInstance mobile_bff
+                    containerInstance pwa_bff
                 }
                 deploymentNode "Admin Backend Application" {
                     technology "DotNet"
@@ -138,7 +138,8 @@ workspace {
             }
 
             deploymentNode "User Terminal" {
-                containerInstance mobile_app
+                technology "Web browser"
+                containerInstance pwa_app
             }
 
             deploymentNode "Admin Terminal" {
